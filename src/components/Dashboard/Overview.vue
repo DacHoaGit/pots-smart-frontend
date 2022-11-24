@@ -71,7 +71,7 @@
 </template>
 
 <script setup>
-import { useMenu } from "../../stores/use-menu";
+import { useMenu } from "../../stores/menu-store";
 useMenu().onSelectedKeys(["dashboard"]);
 useMenu().onOpenKeys(["dashboard"]);
 </script>

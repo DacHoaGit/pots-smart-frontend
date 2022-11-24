@@ -31,7 +31,7 @@ import { InsertRowBelowOutlined } from "@ant-design/icons-vue";
 import { TeamOutlined } from "@ant-design/icons-vue";
 import { UserOutlined } from "@ant-design/icons-vue";
 import { defineComponent } from "vue";
-import { useMenu } from "../../stores/use-menu.js";
+import { useMenu } from "../../stores/menu-store.js";
 import { storeToRefs } from "pinia";
 export default defineComponent({
   components: {
@@ -39,6 +39,7 @@ export default defineComponent({
     TeamOutlined,
     UserOutlined,
   },
+  
   methods: {
     onCloseDrawer: function () {
       this.$parent.onClose();
