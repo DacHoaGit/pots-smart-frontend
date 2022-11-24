@@ -1,4 +1,5 @@
 <template>
+  <div class="container-fluid">
     <Header></Header>
     <div class="container-fluid mt-3">
       <div class="row">
@@ -15,12 +16,10 @@
         </div>
       </div>
     </div>
-  </template>
-  
-  <script setup>
-  import Header from "../components/Home/Header.vue";
-  import Menu from "../components/Dashboard/Menu.vue";
-  
+  </div>
+</template>
 
-  </script>
-  
+<script setup>
+import Header from "../components/Home/Header.vue";
+import Menu from "../components/Dashboard/Menu.vue";
+</script>

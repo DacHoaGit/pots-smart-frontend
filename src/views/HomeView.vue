@@ -1,7 +1,10 @@
 <template>
+  <div class="container-fluid">
     <Header></Header>
-  </template>
-  
-  <script setup>
-  import Header from "../components/Home/Header.vue";  
-  </script>
+    <router-view></router-view>
+  </div>
+</template>
+
+<script setup>
+import Header from "../components/Home/Header.vue";
+</script>
