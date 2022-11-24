@@ -3,7 +3,7 @@
 </template>
 
 <script setup>
-import { useMenu } from '../../stores/use-menu';
-    useMenu().onSelectedKeys(["FertilizerCalculator"])
-    useMenu().onOpenKeys(["FertilizerCalculator"])
+import { useMenu } from "../../stores/menu-store";
+useMenu().onSelectedKeys(["FertilizerCalculator"]);
+useMenu().onOpenKeys(["FertilizerCalculator"]);
 </script>
