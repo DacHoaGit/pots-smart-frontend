@@ -10,6 +10,9 @@ import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
 import { Button,Drawer, List, Menu, Card, Table, InputPassword, Avatar,Image, Input, Form, Select } from 'ant-design-vue';
 // window.axios = axios;
 
+
+
+
 const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
 const app = createApp(App)
