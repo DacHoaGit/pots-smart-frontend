@@ -80,6 +80,30 @@ const onClose = () => {
   visible.value = false;
   visible_user.value = false;
 };
+const openNotificationWithIcon = (type) => {
+  notification[type]({
+    message: "Đăng xuất thành công",
+    duration: 2.5,
+    description: "",
+  });
+};
+const logout = () => {
+  axios
+    .post("/api/logout", { user_id: userStore.id })
+    .then((response) => {
+      if (response) {
+        if (!response.data.error) {
+          openNotificationWithIcon("success");
+          userStore.clearUser();
+          router.push({ path: "/" });
+          onClose();
+        } else message.error("Đăng nhập thất bại");
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
 </script>
 
 <style scoped>
