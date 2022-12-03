@@ -1,30 +1,10 @@
 <template>
   <div class="container-fluid p-0 d-flex justify-content-center">
-    <a-card title="Đăng nhập">
+    <a-card  class="bg-img" title="Đăng nhập">
       <div class="row mb-3">
         <div class="col-12 col-sm-4">
           <div class="row">
             <div class="col-6 d-flex justify-content-start mb-3">
-              <img
-                class="d-none d-sm-flex"
-                width="500"
-                src="../../assets/logo.png"
-                alt="Avatar"
-              />
-              <img
-                class="d-sm-none d-flex"
-                width="100"
-                src="../../assets/logo.png"
-                alt="Avatar"
-              />
-            </div>
-            <div class="col-6 d-sm-none d-flex justify-content-end mb-3">
-              <img
-                class="d-sm-none d-flex"
-                width="100"
-                src="../../assets/logo.png"
-                alt="Avatar"
-              />
             </div>
           </div>
         </div>
@@ -35,7 +15,7 @@
               <div class="col-12 col-sm-3 text-start text-sm-end">
                 <label>
                   <span class="text-danger me-1">*</span>
-                  <span
+                  <span class=""
                     :class="{
                       'text-danger': errors.email,
                     }"
@@ -60,7 +40,7 @@
               </div>
             </div>
 
-            <div class="row mb-4">
+            <div class="row mb-1">
               <div class="col-12 col-sm-3 text-start text-sm-end">
                 <label>
                   <span class="text-danger me-1">*</span>
@@ -82,11 +62,21 @@
                     'input-danger': errors.password,
                   }"
                 />
+
                 <div class="w-100"></div>
                 <small v-if="errors.password" class="text-danger">{{
                   errors.password[0]
                 }}</small>
               </div>
+            </div>
+
+            <div class="row  mb-4">
+              <a class="login-form-forgot d-flex justify-content-end" href="">Forgot password</a>
+            </div>
+
+            <div class="row  mb-4">
+              <small v-if="errors.login" class="text-danger d-flex justify-content-center">{{errors.login[0]}}
+              </small>
             </div>
 
             <div
@@ -105,11 +95,7 @@
         </div>
 
         <div class="col-12 col-sm-4">
-          <div class="row">
-            <div class="col-12 d-none d-sm-flex justify-content-sm-end mb-3">
-              <img width="500" src="../../assets/logo.png" alt="Avatar" />
-            </div>
-          </div>
+         
         </div>
       </div>
     </a-card>
@@ -117,12 +103,13 @@
 </template>
 
 <script setup>
-import { defineComponent, ref, reactive, toRefs } from "vue";
+import {ref, reactive } from "vue";
 import { useMenu } from "../../stores/menu-store";
 import { useRouter } from "vue-router";
 import Swal from "../../sweetalert2";
 import { useUserStore } from "../../stores/user-store";
 import axios from "axios";
+
 const router = useRouter();
 const userStore = useUserStore();
 const store = useMenu();
@@ -153,7 +140,9 @@ const login = () => {
   }
   if (user.password == "") {
     errors.value.password = ["vui lòng nhập đầy đủ thông tin"];
-  } else {
+  } 
+  else {
+    Swal.showLoading()
     axios
       .post("/api/login", user)
       .then((response) => {
@@ -163,19 +152,22 @@ const login = () => {
               icon: "success",
               title: "Đăng nhập thành công",
             });
-
             axios.defaults.headers.common["Authorization"] =
               "Bearer " + response.data.token;
             userStore.setUserDetails(response);
             router.push({ path: "/dashboard" });
-          } else
+          } else{
             Toast.fire({
               icon: "error",
               title: "Đăng nhập thất bại",
             });
+            errors.value.login = ["Thông Thông Tài Khoản Mật Khẩu Không Chính Xác!"];
+          }
+            
         }
       })
       .catch((error) => {
+        Swal.close()
         errors.value = error.response.data.errors;
       });
   }
@@ -183,6 +175,14 @@ const login = () => {
 </script>
 
 <style scoped>
+
+.bg-img{
+  height: 500px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+}
 .ant-card {
   background-color: #f3f8fd;
   border-radius: 50px;

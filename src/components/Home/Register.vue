@@ -206,11 +206,12 @@ const Toast = Swal.mixin({
 });
 const createUsers = () => {
   errors.value = [];
-
+  Swal.showLoading ()
   axios
     .post("/api/register", user)
     .then((response) => {
       if (response) {
+        Swal.close()
         Toast.fire({
           icon: "success",
           title: "Đăng kí thành công",
@@ -219,6 +220,7 @@ const createUsers = () => {
       }
     })
     .catch((error) => {
+      Swal.close()
       errors.value = error.response.data.errors;
     });
 };
