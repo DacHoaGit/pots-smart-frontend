@@ -23,12 +23,31 @@
         ></router-link
       >
     </a-menu-item>
+
+    <a-menu-item key="control">
+      <router-link :to="{ name: 'control' }"
+        ><span
+          ><ControlOutlined class="me-3" :style="{ color: '#08c' }" />Điều khiển</span
+        ></router-link
+      >
+    </a-menu-item>
+
+    <a-menu-item key="token_pots">
+      <router-link :to="{ name: 'token_pots' }"
+        ><span
+          ><ToolOutlined class="me-3" :style="{ color: '#08c' }" />Token</span
+        >
+        </router-link
+      >
+    </a-menu-item>
+
   </a-menu>
 </template>
 
 <script>
-import { InsertRowBelowOutlined } from "@ant-design/icons-vue";
+import { InsertRowBelowOutlined, ToolOutlined } from "@ant-design/icons-vue";
 import { TeamOutlined } from "@ant-design/icons-vue";
+import { ControlOutlined } from "@ant-design/icons-vue";
 import { UserOutlined } from "@ant-design/icons-vue";
 import { defineComponent } from "vue";
 import { useMenu } from "../../stores/menu-store.js";
@@ -38,8 +57,10 @@ export default defineComponent({
     InsertRowBelowOutlined,
     TeamOutlined,
     UserOutlined,
+    ControlOutlined,
+    ToolOutlined
   },
-  
+
   methods: {
     onCloseDrawer: function () {
       this.$parent.onClose();
