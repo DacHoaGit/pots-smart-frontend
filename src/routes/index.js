@@ -45,6 +45,16 @@ const routes = [
             name:'Overview',
             component: () => import ("../components/Dashboard/Overview.vue"),
           },
+          {
+            path:'/control',
+            name:'control',
+            component: () => import ("../components/Dashboard/Control.vue"),
+          },
+          {
+            path:'/token',
+            name:'token_pots',
+            component: () => import ("../components/Dashboard/TokenPots.vue"),
+          },
         ]
     },
   ]
