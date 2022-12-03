@@ -7,7 +7,10 @@ import 'bootstrap/dist/css/bootstrap-grid.min.css';
 import 'bootstrap/dist/css/bootstrap-utilities.min.css';
 import './axios.js'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
-import { Button,Drawer, List, Menu, Card, Table, InputPassword, Avatar,Image, Input, Form, Select } from 'ant-design-vue';
+import { Button,Drawer, List, Menu,Progress, Card, Table,Divider, InputPassword,Tooltip, Avatar,Image, Input, Form, Select } from 'ant-design-vue';
+import VueChartkick from 'vue-chartkick'
+import 'chartkick/chart.js'
+
 // window.axios = axios;
 
 
@@ -17,11 +20,15 @@ const pinia = createPinia()
 pinia.use(piniaPluginPersistedstate)
 const app = createApp(App)
 
+app.use(VueChartkick)
 
 app.use(pinia)
 app.use(router)
 app.use(Button)
+app.use(Tooltip)
+app.use(Divider)
 app.use(Select)
+app.use(Progress)
 app.use(Form)
 app.use(Input)
 app.use(Drawer)
