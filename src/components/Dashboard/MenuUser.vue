@@ -74,28 +74,17 @@ export default defineComponent({
       },
     });
     const logout = () => {
+      Swal.showLoading()
       axios
         .post("/api/logout", { user_id: userStore.id })
         .then((response) => {
-          if (response) {
-            if (!response.data.error) {
-              Toast.fire({
-                icon: "success",
-                title: "Đăng xuất thành công",
-              });
-              userStore.clearUser();
-              router.push({ path: "/login" });
-            } else {
-              Toast.fire({
-                icon: "error",
-                title: "Đăng xuất thành công",
-              });
-            }
-          }
+          userStore.clearUser();
+          Toast.fire({
+            icon: "success",
+            title: "Đăng xuất thành công",
+          });
+          router.push({ path: "/login" });
         })
-        .catch((error) => {
-          console.log(error);
-        });
     };
     return {
       logout,
