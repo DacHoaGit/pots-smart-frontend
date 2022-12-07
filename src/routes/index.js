@@ -51,6 +51,11 @@ const routes = [
             component: () => import ("../components/Dashboard/Control.vue"),
           },
           {
+            path:'/shareconfig',
+            name:'shareconfig',
+            component: () => import ("../components/Dashboard/ShareConfig.vue"),
+          },
+          {
             path:'/token',
             name:'token_pots',
             component: () => import ("../components/Dashboard/TokenPots.vue"),

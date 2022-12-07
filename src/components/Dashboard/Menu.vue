@@ -32,6 +32,14 @@
       >
     </a-menu-item>
 
+    <a-menu-item key="shareconfig">
+      <router-link :to="{ name: 'shareconfig' }"
+        ><span
+          ><ControlOutlined class="me-3" :style="{ color: '#08c' }" />Chia sẽ cấu hình</span
+        ></router-link
+      >
+    </a-menu-item>
+
     <a-menu-item key="token_pots">
       <router-link :to="{ name: 'token_pots' }"
         ><span
