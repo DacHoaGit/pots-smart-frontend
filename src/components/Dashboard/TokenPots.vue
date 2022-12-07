@@ -35,7 +35,6 @@ import { ref } from "vue"
 useMenu().onSelectedKeys(["token_pots"]);
 useMenu().onOpenKeys(["token_pots"]);
     const userStore = useUserStore();
-    console.log
     const copyToken = () => {
         navigator.clipboard.writeText(userStore.token_pots);
     }

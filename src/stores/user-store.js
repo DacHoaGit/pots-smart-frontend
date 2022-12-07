@@ -10,7 +10,7 @@ export const useUserStore = defineStore('user', {
     token_pots:null
   }),
   actions: {
-    setUserDetails(res) {
+    async setUserDetails(res) {
         this.$state.id = res.data.user.id
         this.$state.token = res.data.token
         this.$state.name = res.data.user.name

@@ -44,11 +44,7 @@
               <div class="col-12 col-sm-3 text-start text-sm-end">
                 <label>
                   <span class="text-danger me-1">*</span>
-                  <span
-                    :class="{
-                      'text-danger': errors.password,
-                    }"
-                  >
+                  <span :class="{'text-danger': errors.password}">
                     Mật khẩu:
                   </span>
                 </label>
@@ -105,11 +101,13 @@
 <script setup>
 import {ref, reactive } from "vue";
 import { useMenu } from "../../stores/menu-store";
+import { useSuggestionStore } from "../../stores/suggestion-store";
 import { useRouter } from "vue-router";
 import Swal from "../../sweetalert2";
 import { useUserStore } from "../../stores/user-store";
 import axios from "axios";
 
+const suggestionStore = useSuggestionStore();
 const router = useRouter();
 const userStore = useUserStore();
 const store = useMenu();
@@ -133,7 +131,7 @@ const Toast = Swal.mixin({
   },
 });
 
-const login = () => {
+const login = async () => {
   errors.value = [];
   if (user.email == "") {
     errors.value.email = ["vui lòng nhập đầy đủ thông tin"];
@@ -143,20 +141,23 @@ const login = () => {
   } 
   else {
     Swal.showLoading()
-    axios
+    await axios
       .post("/api/login", user)
-      .then((response) => {
+      .then(async (response) => {
         if (response) {
           if (!response.data.error) {
             Toast.fire({
               icon: "success",
               title: "Đăng nhập thành công",
             });
-            axios.defaults.headers.common["Authorization"] =
-              "Bearer " + response.data.token;
+            axios.defaults.headers.common["Authorization"] ="Bearer " + response.data.token;
             userStore.setUserDetails(response);
+
+            await suggestionStore.fetchSuggestionsByUser();
+            
             router.push({ path: "/dashboard" });
-          } else{
+          } 
+          else{
             Toast.fire({
               icon: "error",
               title: "Đăng nhập thất bại",
