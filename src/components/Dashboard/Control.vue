@@ -573,7 +573,7 @@ const suggestionStore = useSuggestionStore();
               icon: "success",
               title: "Thêm thành công",
             });
-            suggestionStore.fetchSuggestionsByUser();
+            suggestionStore.fetchSuggestions();
             // router.push("/login");
           }
         })
@@ -584,7 +584,7 @@ const suggestionStore = useSuggestionStore();
               title: "Thêm thất bại",
           });
           // errors.value = error.response.data.errors;
-          console.log(error.response.data.errors)
+          console.log(error)
         })
         .finally(()=>{
           onSuggestion.value = false;

@@ -75,6 +75,8 @@
 import { useMenu } from "../../stores/menu-store";
 import {db,dbt} from "../../configs/firebase";
 import { ref,onValue} from "firebase/database";
+import { useUserStore } from "../../stores/user-store"
+
 import {
  getFirestore,
  getDoc,
@@ -84,7 +86,7 @@ import {
  doc
 } from '@firebase/firestore';
 import { reactive } from "vue";
-
+  const userStore = useUserStore();
 
 
 
@@ -102,17 +104,20 @@ import { reactive } from "vue";
   ];
  
 
-  const nhietdoref = ref(db, 'cambien/nhietdo');
+  const nhietdoref = ref(db, userStore.token_pots+'/sensor/nhietdo');
   onValue(nhietdoref, (snapshot) => {
-    sensor.nhietdo =snapshot.val();
+    if(snapshot.val())
+      sensor.nhietdo =snapshot.val();
   });
-  const doamdatref = ref(db, 'cambien/doamdat');
+  const doamdatref = ref(db, userStore.token_pots+'/sensor/doamdat');
   onValue(doamdatref, (snapshot) => {
-    sensor.doamdat = snapshot.val();
+    if(snapshot.val())
+      sensor.doamdat = snapshot.val();
   });
-  const doamkhongkhiref = ref(db, 'cambien/doamkhongkhi');
+  const doamkhongkhiref = ref(db, userStore.token_pots+'/sensor/doamkhongkhi');
   onValue(doamkhongkhiref, (snapshot) => {
-    sensor.doamkhongkhi = snapshot.val();
+    if(snapshot.val())
+      sensor.doamkhongkhi = snapshot.val();
   });
 
   const getData = async () => {

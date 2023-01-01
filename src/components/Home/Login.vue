@@ -105,9 +105,13 @@ import { useSuggestionStore } from "../../stores/suggestion-store";
 import { useRouter } from "vue-router";
 import Swal from "../../sweetalert2";
 import { useUserStore } from "../../stores/user-store";
+import { useTimerStore } from "../../stores/timer-store";
 import axios from "axios";
 
 const suggestionStore = useSuggestionStore();
+const timerStore = useTimerStore();
+
+
 const router = useRouter();
 const userStore = useUserStore();
 const store = useMenu();
@@ -153,7 +157,8 @@ const login = async () => {
             axios.defaults.headers.common["Authorization"] ="Bearer " + response.data.token;
             userStore.setUserDetails(response);
 
-            await suggestionStore.fetchSuggestionsByUser();
+            await suggestionStore.fetchSuggestions();
+            await timerStore.fetchTimersByUser();
             
             router.push({ path: "/dashboard" });
           } 

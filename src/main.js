@@ -7,7 +7,7 @@ import 'bootstrap/dist/css/bootstrap-grid.min.css';
 import 'bootstrap/dist/css/bootstrap-utilities.min.css';
 import './axios.js'
 import piniaPluginPersistedstate from 'pinia-plugin-persistedstate'
-import { Button,Drawer, List, Menu,Progress, Card,Divider,Upload,Table ,Tooltip, Avatar,Image, Input, Form, Select } from 'ant-design-vue';
+import { Button,Drawer, List, Menu,Progress, Card,Divider,Upload,TimePicker,Switch,DatePicker, Table, Rate ,Tooltip, Avatar,Image, Input, Form, Select } from 'ant-design-vue';
 import VueChartkick from 'vue-chartkick';
 import 'chartkick/chart.js';
 
@@ -25,6 +25,10 @@ app.use(VueChartkick)
 app.use(pinia)
 app.use(router)
 app.use(Button)
+app.use(Rate)
+app.use(TimePicker)
+app.use(DatePicker)
+app.use(Switch)
 app.use(Tooltip)
 app.use(Upload)
 app.use(Table)

@@ -35,7 +35,15 @@
     <a-menu-item key="shareconfig">
       <router-link :to="{ name: 'shareconfig' }"
         ><span
-          ><ControlOutlined class="me-3" :style="{ color: '#08c' }" />Chia sẽ cấu hình</span
+          ><ControlOutlined class="me-3" :style="{ color: '#08c' }" />Chia sẻ cấu hình</span
+        ></router-link
+      >
+    </a-menu-item>
+
+    <a-menu-item key="timer">
+      <router-link :to="{ name: 'timer' }"
+        ><span
+          ><ControlOutlined class="me-3" :style="{ color: '#08c' }" />Hẹn giờ</span
         ></router-link
       >
     </a-menu-item>
