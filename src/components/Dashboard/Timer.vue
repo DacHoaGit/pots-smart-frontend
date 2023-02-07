@@ -11,15 +11,27 @@
           size="large"
         />
         <div class="mt-4 check-bom">
-          <a-switch style="margin-right: 12px" v-model:checked="bom" />
+          <a-switch
+            style="margin-right: 12px"
+            :onChange="turnOffAuto"
+            v-model:checked="bom"
+          />
           <span>Bật tưới cây</span>
         </div>
         <div class="mt-4 check-den">
-          <a-switch style="margin-right: 12px" v-model:checked="den" />
+          <a-switch
+            style="margin-right: 12px"
+            :onChange="turnOffAuto"
+            v-model:checked="den"
+          />
           <span>Bật đèn</span>
         </div>
         <div class="mt-4 check-auto">
-          <a-switch style="margin-right: 12px" v-model:checked="auto" />
+          <a-switch
+            style="margin-right: 12px"
+            :onChange="turnOffAuto"
+            v-model:checked="auto"
+          />
           <span>Bật tự động</span>
         </div>
       </div>
@@ -116,16 +128,18 @@
         >
           <template #bodyCell="{ column, record }">
             <template v-if="column.key === 'operation'">
-              <a-switch
-                style="margin-right: 12px"
-                @click="changeStatus(record.key)"
-                :checked="record.status == 1 ? true : false"
-              />
-              <a-button
-                style="margin-right;: 8px;border-color: red"
-                @click="deleteTimer(record.key)"
-                >Xóa</a-button
-              >
+              <div class="d-flex align-items-center">
+                <a-switch
+                  style="margin-right: 12px"
+                  @click="changeStatus(record.key)"
+                  :checked="record.status == 1 ? true : false"
+                />
+                <a-button
+                  style="margin-right;: 8px;border-color: red"
+                  @click="deleteTimer(record.key)"
+                  >Xóa</a-button
+                >
+              </div>
             </template>
             <template v-if="column.key === 'day_of_weeks'">
               <span v-if="record.day_of_weeks"
@@ -152,12 +166,36 @@ import { ref, reactive, onMounted } from "vue";
 import axios from "axios";
 import Swal from "../../sweetalert2";
 import { useTimerStore } from "../../stores/timer-store";
-import { async } from "@firebase/util";
+import { useDeviceStore } from "../../stores/device-store";
+import { useShareStore } from "../../stores/share-store";
+
+
 import dayjs from "dayjs";
 
 const timerStore = useTimerStore();
+const deviceStore = useDeviceStore();
+const shareStore = useShareStore();
+const devices = ref({});
+const shares = ref({});
+const data = ref([]);
+
 onMounted(async () => {
   await timerStore.fetchTimersByUser();
+  timerStore.timers.forEach((timer) => {
+    data.value.push({
+      key: timer.id,
+      name: timer.device.name,
+      status: timer.status,
+      den: timer.den ? "Bật" : "Tắt",
+      bom: timer.bom ? "Bật" : "Tắt",
+      auto: timer.auto ? "Bật" : "Tắt",
+      time_start: timer.time_start,
+      time_end: timer.time_end,
+      date: timer.date,
+      day_of_weeks: timer.day_of_weeks,
+      created_at: timer.created_at,
+    });
+  });
 });
 
 useMenu().onSelectedKeys(["timer"]);
@@ -181,7 +219,6 @@ const den = ref(false);
 const auto = ref(false);
 
 const columns = ref([]);
-const data = ref([]);
 
 const allDays = () => {
   weekday.monday = true;
@@ -204,6 +241,14 @@ const allClear = () => {
 const disabledDate = (current) => {
   return current < dayjs();
 };
+const turnOffAuto = () => {
+  if (auto.value) {
+    den.value = false;
+    bom.value = false;
+  }
+
+  if (bom.value || den.value) auto.value = false;
+};
 
 const changeStatus = async (key) => {
   loading.value = true;
@@ -216,6 +261,7 @@ const changeStatus = async (key) => {
         timerStore.timers.forEach((timer) => {
           data.value.push({
             key: timer.id,
+            name: timer.device.name,
             status: timer.status,
             den: timer.den ? "Bật" : "Tắt",
             bom: timer.bom ? "Bật" : "Tắt",
@@ -234,6 +280,45 @@ const changeStatus = async (key) => {
       loading.value = false;
       console.log(error);
     });
+};
+
+const text = ref("");
+
+const render = () => {
+  devices.value.forEach((item) => {
+    text.value +=
+      `<div class="form-check mb-2" style="width: 50%">
+                <input class="form-check-input" type="checkbox" value="` +
+      item.device +
+      `" id="` +
+      item.device +
+      `">
+                <label class="form-check-label" for="` +
+      item.device +
+      `">
+                    ` +
+      item.name +
+      `
+                </label>
+            </div>`;
+  });
+  shares.value.forEach((item) => {
+    text.value +=
+      `<div class="form-check mb-2" style="width: 50%">
+                <input class="form-check-input" type="checkbox" value="` +
+      item.device.device +
+      `" id="` +
+      item.device.device +
+      `">
+                <label class="form-check-label" for="` +
+      item.device.device +
+      `">
+                    ` +
+      item.device.name +
+      `
+                </label>
+            </div>`;
+  });
 };
 
 const deleteTimer = async (id) => {
@@ -260,6 +345,11 @@ const deleteTimer = async (id) => {
 };
 
 columns.value = [
+  {
+    title: "Tên",
+    dataIndex: "name",
+    key: "name",
+  },
   {
     title: "Đèn",
     dataIndex: "den",
@@ -314,46 +404,79 @@ const Toast = Swal.mixin({
   },
 });
 
-timerStore.timers.forEach((timer) => {
-  data.value.push({
-    key: timer.id,
-    status: timer.status,
-    den: timer.den ? "Bật" : "Tắt",
-    bom: timer.bom ? "Bật" : "Tắt",
-    auto: timer.auto ? "Bật" : "Tắt",
-    time_start: timer.time_start,
-    time_end: timer.time_end,
-    date: timer.date,
-    day_of_weeks: timer.day_of_weeks,
-    created_at: timer.created_at,
-  });
-});
-
 const create = async () => {
-  const formData = new FormData();
-  formData.append("den", den.value),
-    formData.append("bom", bom.value),
-    formData.append("auto", auto.value),
-    formData.append("time_start", time.value[0]),
-    formData.append("time_end", time.value[1]),
-    formData.append("date", date.value),
-    formData.append("monday", weekday.monday),
-    formData.append("tuesday", weekday.tuesday),
-    formData.append("wednesday", weekday.wednesday),
-    formData.append("thursday", weekday.thursday),
-    formData.append("friday", weekday.friday),
-    formData.append("saturday", weekday.saturday),
-    formData.append("sunday", weekday.sunday),
-    // errors.value = [];
-    Swal.showLoading();
-  axios
-    .post("/api/timer", formData)
-    .then(async (response) => {
-      if (response) {
-        Swal.close();
-        Toast.fire({
-          icon: "success",
-          title: "Thêm thành công",
+  await deviceStore.fetchDevicesByUser();
+  await shareStore.fetchSharedComfirmList();
+  shares.value = shareStore.shared_comfirm_list;
+  devices.value = deviceStore.devices;
+  text.value = "";
+  render();
+  const { value: accept } = await Swal.fire({
+    title: "Lựa chọn thiết bị sử dụng",
+    html:
+      `<div id="checkbox-container" style="
+                display:flex;
+                justify-content: space-around;
+                flex-wrap: wrap;
+            ">
+            ` +
+      text.value +
+      `
+      
+          </div>
+    `,
+    focusConfirm: false,
+    showCancelButton: true,
+    preConfirm: async () => {
+      const checkboxes = document
+        .getElementById("checkbox-container")
+        .querySelectorAll("input[type='checkbox']");
+      if (checkboxes.length != 0) {
+        checkboxes.forEach(async (checkbox) => {
+          if (checkbox.checked) {
+            const formData = new FormData();
+            formData.append("den", den.value),
+              formData.append("bom", bom.value),
+              formData.append("auto", auto.value),
+              formData.append("time_start", time.value[0]),
+              formData.append("time_end", time.value[1]),
+              formData.append("date", date.value),
+              formData.append("monday", weekday.monday),
+              formData.append("tuesday", weekday.tuesday),
+              formData.append("wednesday", weekday.wednesday),
+              formData.append("thursday", weekday.thursday),
+              formData.append("friday", weekday.friday),
+              formData.append("saturday", weekday.saturday),
+              formData.append("sunday", weekday.sunday),
+              formData.append("device", checkbox.value),
+              Swal.showLoading();
+            axios
+              .post("/api/timer", formData)
+              .then(async (response) => {
+                if (response) {
+                  Swal.close();
+                  Toast.fire({
+                    icon: "success",
+                    title: "Thêm thành công",
+                  });
+
+                  // router.push("/login");
+                }
+              })
+              .catch((error) => {
+                Swal.close();
+                console.log(error);
+                Toast.fire({
+                  icon: "error",
+                  title: "Thêm thất bại",
+                });
+                // errors.value = error.response.data.errors;
+                console.log(error.response.data.errors);
+              });
+            // .finally(()=>{
+            //   onSuggestion.value = false;
+            // });
+          }
         });
         loading.value = true;
         data.value = [];
@@ -361,6 +484,7 @@ const create = async () => {
         timerStore.timers.forEach((timer) => {
           data.value.push({
             key: timer.id,
+            name: timer.device.name,
             status: timer.status,
             den: timer.den ? "Bật" : "Tắt",
             bom: timer.bom ? "Bật" : "Tắt",
@@ -373,21 +497,8 @@ const create = async () => {
           });
         });
         loading.value = false;
-        // router.push("/login");
       }
-    })
-    .catch((error) => {
-      Swal.close();
-      console.log(error);
-      Toast.fire({
-        icon: "error",
-        title: "Thêm thất bại",
-      });
-      // errors.value = error.response.data.errors;
-      console.log(error.response.data.errors);
-    });
-  // .finally(()=>{
-  //   onSuggestion.value = false;
-  // });
+    },
+  });
 };
 </script>
