@@ -7,6 +7,7 @@ export const useUserStore = defineStore('user', {
     token: null,
     name: null,
     email: null,
+    role: null,
     token_pots:null
   }),
   actions: {
@@ -16,6 +17,7 @@ export const useUserStore = defineStore('user', {
         this.$state.name = res.data.user.name
         this.$state.email = res.data.user.email
         this.$state.token_pots = res.data.user.token_pots
+        this.$state.role = res.data.user.role
     },
     async fetchUser() {
         let res = await axios.get('api/user/' + this.$state.id)
@@ -23,6 +25,7 @@ export const useUserStore = defineStore('user', {
         this.$state.name = res.data.user.name
         this.$state.email = res.data.user.email
         this.$state.token_pots = res.data.user.token_pots
+        this.$state.role = res.data.user.role
     },
     clearUser() {
         this.$state.id = null
@@ -30,6 +33,7 @@ export const useUserStore = defineStore('user', {
         this.$state.name = null
         this.$state.email = null
         this.$state.token_pots = null
+        this.$state.role = null
     }
   },
   persist: true
