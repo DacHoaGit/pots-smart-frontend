@@ -1,50 +1,29 @@
 <template>
   <div class="container-fluid p-0 d-flex justify-content-center">
     <a-card title="Tạo tài khoản">
-      <div class="row mb-3">
-        <div class="col-12 col-sm-4">
-          <div class="row">
-            <div class="col-6 d-flex justify-content-start mb-3">
-              <img
-                class="d-none d-sm-flex"
-                width="500"
-                src="../../assets/logo.png"
-                alt="Avatar"
-              />
-              <img
-                class="d-sm-none d-flex"
-                width="100"
-                src="../../assets/logo.png"
-                alt="Avatar"
-              />
-            </div>
-            <div class="col-6 d-sm-none d-flex justify-content-end mb-3">
-              <img
-                class="d-sm-none d-flex"
-                width="100"
-                src="../../assets/logo.png"
-                alt="Avatar"
-              />
-            </div>
-          </div>
-        </div>
 
-        <div class="col-12 col-sm-4 mt-5">
-          <form @submit.prevent="createUsers()">
+      <div style="" class="card">
+        <div class="card-icon">
+          <img src="../../assets/user.png" alt="" />
+        </div>
+        <div class="card-body">
+          <h5 class="card-title">Đăng kí tài khoản</h5>
+          <div class="card-text">
+            <form class="w-100" @submit.prevent="createUsers()">
             <div class="row mb-4">
-              <div class="col-12 col-sm-3 text-start text-sm-end">
+              <div class="col-12 col-sm-3 text-start text-sm-end d-sm-flex justify-content-center align-items-center">
                 <label>
-                  <span class="text-danger me-1">*</span>
                   <span
-                    :class="{
-                      'text-danger': errors.name,
-                    }"
+                  :class="{
+                    'text-danger': errors.name,
+                  }"
                   >
-                    Họ và tên:
+                  Họ và tên:
+                  <span class="text-danger me-1">*</span>
                   </span>
                 </label>
               </div>
-              <div class="col-12 col-sm-9">
+              <div class="col-12 col-sm-7">
                 <a-input
                   placeholder="Tên Tài khoản"
                   allow-clear
@@ -61,19 +40,19 @@
             </div>
 
             <div class="row mb-4">
-              <div class="col-12 col-sm-3 text-start text-sm-end">
+              <div class="col-12 col-sm-3 text-start text-sm-end d-sm-flex justify-content-center align-items-center">
                 <label>
-                  <span class="text-danger me-1">*</span>
                   <span
-                    :class="{
-                      'text-danger': errors.email,
-                    }"
+                  :class="{
+                    'text-danger': errors.email,
+                  }"
                   >
-                    Email:
+                  Email:
+                  <span class="text-danger me-1">*</span>
                   </span>
                 </label>
               </div>
-              <div class="col-12 col-sm-9">
+              <div class="col-12 col-sm-7">
                 <a-input
                   placeholder="Email"
                   allow-clear
@@ -90,19 +69,19 @@
             </div>
 
             <div class="row mb-4">
-              <div class="col-12 col-sm-3 text-start text-sm-end">
+              <div class="col-12 col-sm-3 text-start text-sm-end d-sm-flex justify-content-center align-items-center">
                 <label>
-                  <span class="text-danger me-1">*</span>
                   <span
-                    :class="{
-                      'text-danger': errors.password,
-                    }"
+                  :class="{
+                    'text-danger': errors.password,
+                  }"
                   >
-                    Mật khẩu:
+                  Mật khẩu:
+                  <span class="text-danger me-1">*</span>
                   </span>
                 </label>
               </div>
-              <div class="col-12 col-sm-9">
+              <div class="col-12 col-sm-7">
                 <a-input-password
                   placeholder="Mật khẩu"
                   allow-clear
@@ -119,19 +98,19 @@
             </div>
 
             <div class="row mb-4">
-              <div class="col-12 col-sm-3 text-start text-sm-end">
+              <div class="col-12 col-sm-3 text-start text-sm-end d-sm-flex justify-content-center align-items-center">
                 <label>
-                  <span class="text-danger me-1">*</span>
                   <span
-                    :class="{
-                      'text-danger': errors.password_confirmation,
-                    }"
+                  :class="{
+                    'text-danger': errors.password_confirmation,
+                  }"
                   >
-                    Xác nhận mật khẩu:
+                  Xác nhận mật khẩu:
+                  <span class="text-danger me-1">*</span>
                   </span>
                 </label>
               </div>
-              <div class="col-12 col-sm-9">
+              <div class="col-12 col-sm-7">
                 <a-input-password
                   placeholder="Mật khẩu"
                   allow-clear
@@ -162,13 +141,6 @@
               </a-button>
             </div>
           </form>
-        </div>
-
-        <div class="col-12 col-sm-4">
-          <div class="row">
-            <div class="col-12 d-none d-sm-flex justify-content-sm-end mb-3">
-              <img width="500" src="../../assets/logo.png" alt="Avatar" />
-            </div>
           </div>
         </div>
       </div>
@@ -227,6 +199,70 @@ const createUsers = () => {
 </script>
 
 <style scoped>
+
+
+.card {
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0px 2px 10px #ccc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 800px;
+  margin: 80px auto;
+  text-align: center;
+  transition: all 0.3s ease-in-out;
+  height: auto; 
+  margin-top: 50px;
+}
+
+.card:hover {
+  transform: scale(1.1);
+}
+
+.card-icon {
+  font-size: 60px;
+  color: #5b5b5b;
+  margin-top: 20px;
+}
+
+.card-body {
+  padding: 20px;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.card-title {
+  font-weight: bold;
+  font-size: 20px;
+  color: #333;
+  margin-top: 10px;
+  margin-bottom: 35px;
+  width: 100%;
+}
+
+.card-text {
+  font-size: 14px;
+  color: #333;
+  margin-top: 10px;
+  text-align: justify;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+}
+
+@media (max-width: 767px) {
+  .card {
+    width: 90%;
+    margin: 10px auto;
+
+    height: auto;
+    margin-top: 10px;
+  }
+  
+}
 .ant-card {
   background-color: #f3f8fd;
   border-radius: 50px;
