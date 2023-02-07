@@ -4,7 +4,7 @@ import { useUserStore } from '../stores/user-store'
 const routes = [
     {
         path: '/',
-        name: 'home',
+        name: 'root',
         component: () => import ("../views/HomeView.vue"),
         children:[
           {
@@ -14,6 +14,11 @@ const routes = [
               useUserStore().id ? next('/dashboard') : next()
             },
             component: () => import ("../components/Home/Login.vue")
+          },
+          {
+            path: '/',
+            name: 'home',
+            component: () => import ("../components/Home/Home.vue")
           },
     
           {
@@ -36,9 +41,9 @@ const routes = [
         component: () => import ("../views/Dashboard.vue"),
         children:[
           {
-            path:'/tinh-toan-phan-bon',
-            name:'FertilizerCalculator',
-            component: () => import ("../components/Dashboard/FertilizerCalculator.vue"),
+            path:'/identified',
+            name:'identified',
+            component: () => import ("../components/Dashboard/Identified.vue"),
           },
           {
             path:'/dashboard',
@@ -61,9 +66,14 @@ const routes = [
             component: () => import ("../components/Dashboard/Timer.vue"),
           },
           {
-            path:'/token',
-            name:'token_pots',
-            component: () => import ("../components/Dashboard/TokenPots.vue"),
+            path:'/video',
+            name:'video',
+            component: () => import ("../components/Dashboard/Video.vue"),
+          },
+          {
+            path:'/device',
+            name:'device',
+            component: () => import ("../components/Dashboard/Device.vue"),
           },
         ]
     },
