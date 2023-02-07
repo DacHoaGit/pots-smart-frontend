@@ -1,14 +1,14 @@
 <template>
   <div class="container-fluid">
     <Header></Header>
-    <div class="container-fluid mt-3">
+    <div style="margin-top: 100px;" class="container-fluid">
       <div class="row">
-        <div class="col-sm-3 d-none d-sm-flex">
+        <div  class="col-sm-3 d-none d-sm-flex">
           <a-list bordered class="w-100">
             <template #header>
               <div>DashBoard</div>
             </template>
-            <Menu />
+            <Menu  />
           </a-list>
         </div>
         <div class="col-sm-9 col-12">
